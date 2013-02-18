@@ -1,0 +1,3 @@
+useDynLib(smaa)
+
+export(smaa)

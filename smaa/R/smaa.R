@@ -31,7 +31,7 @@ smaa <- function(m, n, meas, pref, N=10000) {
 	list(rankAcc=h/N, centralWeights=wc)
 }
 
-dyn.load("smaa.so")
+#dyn.load("smaa.so")
 
 smaa <- function(m, n, meas, pref, N=10000) {
 	result <- .C("smaa", as.double(aperm(meas, c(2,3,1))), as.double(t(pref)),
