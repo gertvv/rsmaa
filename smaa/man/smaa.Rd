@@ -5,7 +5,7 @@
 Calculate SMAA decision indices based on a set of samples from the criteria values discribution and a set of samples from the feasible weight space.
 }
 \usage{
-    smaa(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1])
+    smaa(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1], generate.values=FALSE)
 }
 \arguments{
     \item{meas}{Criteria measurements. An N * m * n array, where meas[i,,] is
@@ -17,6 +17,7 @@ Calculate SMAA decision indices based on a set of samples from the criteria valu
     \item{m}{Number of alternatives.}
     \item{n}{Number of criteria.}
     \item{N}{Number of iterations.}
+	\item{generate.values}{If TRUE, the generated values / utilities for each of the alternatives are returned.}
 }
 \details{
 TODO: some details here.
@@ -24,6 +25,7 @@ TODO: some details here.
 \value{
     \item{rankAcc}{Rank acceptabilities.}
     \item{centralWeigths}{Central weights.}
+	\item{values}{Alternative values / utilities (if generate.values=TRUE)}
 }
 \examples{
 

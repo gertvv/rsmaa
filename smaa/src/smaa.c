@@ -39,7 +39,7 @@ void rank(double *t, int *r, int n) {
 void smaa(
 		double const *meas, double const *pref,
 		int const *nIter, int const *nAlt, int const *nCrit,
-		double *hData, double *wcData) {
+		double *hData, double *wcData, double *tData) {
 	const int inc1 = 1;
 	const double one = 1.0, zero = 0.0; // for BLAS
 	const char trans = 'N';
@@ -47,7 +47,8 @@ void smaa(
 	Matrix h = { hData, *nAlt, *nAlt };
 	Matrix wc = { wcData, *nAlt, *nCrit };
 
-	double t[*nAlt]; // alternative values
+	double t_[*nAlt];
+	double *t = (tData != 0 ? tData : t_); // alternative values
 	int r[*nAlt]; // alternative ranks
 	for (int k = 0; k < *nIter; ++k) {
 		// calculate value of each alternative
@@ -69,6 +70,10 @@ void smaa(
 		// advance measurement and weight pointers
 		meas += *nAlt * *nCrit;
 		pref += *nCrit;
+		// advance alternative value pointer
+		if (tData != 0) {
+			t += *nAlt;
+		}
 	}
 
 	// normalize central weights
