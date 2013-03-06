@@ -1,3 +1,4 @@
 useDynLib(smaa)
 
-export(smaa)
+export(smaa, smaa.values, smaa.ranks, smaa.ra, smaa.cw,
+	smaa.entropy.ranking, smaa.entropy.choice)
