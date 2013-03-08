@@ -62,9 +62,21 @@ smaa <- function(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1], gen
 		as.integer(N), as.integer(m), as.integer(n),
 		as.integer(generate.values),
 		h=matrix(0, nrow=m, ncol=m),
-		wc=matrix(0, nrow=m, ncol=n),
+		cw=matrix(0, nrow=m, ncol=n),
 		t=t,
 		NAOK=FALSE, DUP=FALSE)
 
-	list(rankAcc=result$h/N, centralWeights=result$wc, values=result$t)
+	# Introduce NAs where central weights are undefined
+	result$cw <- t(apply(result$cw, 1, function(w) { if (sum(w) < 0.5) rep(NA, length(w)) else w }))
+
+	rownames(result$cw) <- dimnames(meas)[[2]]
+	colnames(result$cw) <- dimnames(meas)[[3]]
+
+	rownames(result$h) <- dimnames(meas)[[2]]
+
+	if (generate.values) {
+		rownames(result$t) <- dimnames(meas)[[2]]
+	}
+
+	list(rankAcc=result$h/N, centralWeights=result$cw, values=t(result$t))
 }
