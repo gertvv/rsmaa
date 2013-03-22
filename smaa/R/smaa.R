@@ -4,26 +4,30 @@ smaa.values <- function(meas, pref) {
 	n <- dim(meas)[3]
 	stopifnot(identical(dim(pref), c(N, n)))
 
-	t(.C("smaa_values",
+	values <- t(.C("smaa_values",
 		as.double(aperm(meas, c(2,3,1))), as.double(t(pref)),
 		as.integer(N), as.integer(m), as.integer(n),
 		v=matrix(0.0, nrow=m, ncol=N))$v)
+	dimnames(values) <- dimnames(meas)[1:2]
+	values
 }
 
 smaa.ranks <- function(values) {
 	N <- dim(values)[1]
 	m <- dim(values)[2]
-	t(.C("smaa_ranks", as.double(t(values)),
+	ranks <- t(.C("smaa_ranks", as.double(t(values)),
 		as.integer(N), as.integer(m),
 		r=matrix(0L, nrow=m, ncol=N),
 		NAOK=FALSE, DUP=FALSE)$r) + 1
+	dimnames(ranks) <- dimnames(values)
+	ranks
 }
 
 smaa.ra <- function(ranks) {
 	N <- dim(ranks)[1]
 	m <- dim(ranks)[2]
 
-	apply(ranks, 2, tabulate, nbins=m) / N
+	t(apply(ranks, 2, tabulate, nbins=m) / N)
 }
 
 smaa.cw <- function(ranks, pref) {
@@ -32,8 +36,8 @@ smaa.cw <- function(ranks, pref) {
 	n <- dim(pref)[2]
 	stopifnot(identical(dim(pref), c(N, n)))
 
-	t(sapply(1:m, function(j) {
-		apply(pref[ranks[,j] == 1, ], 2, mean)
+	t(apply(ranks, 2, function(r) {
+		apply(pref[r == 1, ], 2, mean)
 	}))
 }
 
