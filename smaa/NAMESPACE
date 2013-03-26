@@ -1,4 +1,7 @@
 useDynLib(smaa)
 
 export(smaa, smaa.values, smaa.ranks, smaa.ra, smaa.cw,
-	smaa.entropy.ranking, smaa.entropy.choice)
+	smaa.entropy.ranking, smaa.entropy.choice,
+	plot.smaa.ranks, plot.smaa.ra, plot.smaa.cw,
+	print.smaa.ranks, print.smaa.ra, print.smaa.cw,
+	summary.smaa.ranks)

@@ -20,14 +20,37 @@ smaa.ranks <- function(values) {
 		r=matrix(0L, nrow=m, ncol=N),
 		NAOK=FALSE, DUP=FALSE)$r) + 1
 	dimnames(ranks) <- dimnames(values)
+	class(ranks) <- "smaa.ranks"
 	ranks
+}
+
+plot.smaa.ranks <- function(ranks, ...) {
+	plot(smaa.ra(ranks), ...)
+}
+
+print.smaa.ranks <- function(ranks, ...) {
+	print(unclass(ranks), ...)
+}
+
+summary.smaa.ranks <- function(ranks, ...) {
+	smaa.ra(ranks)
 }
 
 smaa.ra <- function(ranks) {
 	N <- dim(ranks)[1]
 	m <- dim(ranks)[2]
 
-	t(apply(ranks, 2, tabulate, nbins=m) / N)
+	ra <- t(apply(ranks, 2, tabulate, nbins=m) / N)
+	class(ra) <- "smaa.ra"
+	ra
+}
+
+plot.smaa.ra <- function(ra, ...) {
+	barplot(t(ra))
+}
+
+print.smaa.ra <- function(ra, ...) {
+	print(unclass(ra))
 }
 
 smaa.cw <- function(ranks, pref) {
@@ -36,9 +59,27 @@ smaa.cw <- function(ranks, pref) {
 	n <- dim(pref)[2]
 	stopifnot(identical(dim(pref), c(N, n)))
 
-	t(apply(ranks, 2, function(r) {
+	cw <- t(apply(ranks, 2, function(r) {
 		apply(pref[r == 1, ], 2, mean)
 	}))
+	class(cw) <- "smaa.cw"
+	cw
+}
+
+plot.smaa.cw <- function(cw, ...) {
+	# FIXME: use layout() instead?
+	par(mar=c(8.1, 4.1, 4.1, 8.1))
+	plot(NA, xlim=c(1, ncol(cw)), ylim=c(0, max(cw)), xlab="", ylab="Weight", xaxt='n', bty='L')
+	for (i in 1:nrow(cw)) {
+		lines(cw[i,], pch=i, type="b")
+	}
+	axis(side=1, at=1:ncol(cw), labels=colnames(cw), las=2)
+
+	legend("topright", inset=c(-0.25,0), legend=rownames(cw), pch=(1:nrow(cw)), xpd=TRUE)
+}
+
+print.smaa.cw <- function(cw, ...) {
+	print(unclass(cw))
 }
 
 smaa.entropy.ranking <- function(ranks, p0=1) {
