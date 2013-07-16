@@ -75,8 +75,7 @@ void smaa_values(
 void smaa(
 		double const *meas, double const *pref,
 		int const *nIter, int const *nAlt, int const *nCrit,
-		int const *gValues,
-		double *hData, double *wcData, double *tData) {
+		double *hData, double *wcData) {
 	const int inc1 = 1;
 	const double one = 1.0, zero = 0.0; // for BLAS
 	const char trans = 'N';
@@ -84,8 +83,7 @@ void smaa(
 	Matrix h = { hData, *nAlt, *nAlt };
 	Matrix wc = { wcData, *nAlt, *nCrit };
 
-	double t_[*nAlt];
-	double *t = (*gValues ? tData : t_); // alternative values
+	double t[*nAlt];
 	int r[*nAlt]; // alternative ranks
 	for (int k = 0; k < *nIter; ++k) {
 		// calculate value of each alternative
@@ -108,9 +106,6 @@ void smaa(
 		meas += *nAlt * *nCrit;
 		pref += *nCrit;
 		// advance alternative value pointer
-		if (*gValues) {
-			t += *nAlt;
-		}
 	}
 
 	// normalize central weights

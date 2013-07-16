@@ -9,6 +9,7 @@ smaa.values <- function(meas, pref) {
 		as.integer(N), as.integer(m), as.integer(n),
 		v=matrix(0.0, nrow=m, ncol=N))$v)
 	dimnames(values) <- dimnames(meas)[1:2]
+  class(values) <- "smaa.values"
 	values
 }
 
@@ -90,38 +91,36 @@ smaa.entropy.ranking <- function(ranks, p0=1) {
 }
 
 smaa.entropy.choice <- function(ra, p0=1) {
+  if (class(ra) == 'smaa.ranks') { ra <- smaa.ra(ranks) }
+  stopifnot(class(ra) == 'smaa.ra')
 	# FIXME: could implement this if I remembered whether row or columns are
 	# the alternatives.
 }
 
-smaa <- function(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1], generate.values=FALSE) {
+smaa <- function(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1]) {
 	stopifnot(identical(dim(meas), c(N, m, n)))
 	stopifnot(identical(dim(pref), c(N, n)))
 
-	t <- numeric(0)
-	if (generate.values) {
-		t <- matrix(0, nrow=m, ncol=N)
-	}
-
 	result <- .C("smaa", as.double(aperm(meas, c(2,3,1))), as.double(t(pref)),
 		as.integer(N), as.integer(m), as.integer(n),
-		as.integer(generate.values),
 		h=matrix(0, nrow=m, ncol=m),
 		cw=matrix(0, nrow=m, ncol=n),
-		t=t,
 		NAOK=FALSE, DUP=FALSE)
 
 	# Introduce NAs where central weights are undefined
-	result$cw <- t(apply(result$cw, 1, function(w) { if (sum(w) < 0.5) rep(NA, length(w)) else w }))
+	cw <- t(apply(result$cw, 1, function(w) { if (sum(w) < 0.5) rep(NA, length(w)) else w }))
 
-	rownames(result$cw) <- dimnames(meas)[[2]]
-	colnames(result$cw) <- dimnames(meas)[[3]]
+	rownames(cw) <- dimnames(meas)[[2]]
+	colnames(cw) <- dimnames(meas)[[3]]
+  class(cw) <- "smaa.cw"
+  attr(cw, "smaa.N") <- N
 
-	rownames(result$h) <- dimnames(meas)[[2]]
+  ra <- result$h / N
+	rownames(ra) <- dimnames(meas)[[2]]
+  class(ra) <- "smaa.ra"
+  attr(ra, "smaa.N") <- N
 
-	if (generate.values) {
-		rownames(result$t) <- dimnames(meas)[[2]]
-	}
-
-	list(rankAcc=result$h/N, centralWeights=result$cw, values=t(result$t))
+  result <- list(cw=cw, ra=ra)
+  class(result) <- "smaa.result"
+  result
 }
