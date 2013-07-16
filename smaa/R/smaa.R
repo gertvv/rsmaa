@@ -25,16 +25,16 @@ smaa.ranks <- function(values) {
 	ranks
 }
 
-plot.smaa.ranks <- function(ranks, ...) {
-	plot(smaa.ra(ranks), ...)
+plot.smaa.ranks <- function(x, ...) {
+	plot(smaa.ra(x), ...)
 }
 
-print.smaa.ranks <- function(ranks, ...) {
-	print(unclass(ranks), ...)
+print.smaa.ranks <- function(x, ...) {
+	print(unclass(x), ...)
 }
 
-summary.smaa.ranks <- function(ranks, ...) {
-	smaa.ra(ranks)
+summary.smaa.ranks <- function(object, ...) {
+	smaa.ra(object)
 }
 
 smaa.ra <- function(ranks) {
@@ -46,12 +46,12 @@ smaa.ra <- function(ranks) {
 	ra
 }
 
-plot.smaa.ra <- function(ra, ...) {
-	barplot(t(ra))
+plot.smaa.ra <- function(x, ...) {
+	barplot(t(x))
 }
 
-print.smaa.ra <- function(ra, ...) {
-	print(unclass(ra))
+print.smaa.ra <- function(x, ...) {
+	print(unclass(x))
 }
 
 smaa.cw <- function(ranks, pref) {
@@ -67,20 +67,20 @@ smaa.cw <- function(ranks, pref) {
 	cw
 }
 
-plot.smaa.cw <- function(cw, ...) {
+plot.smaa.cw <- function(x, ...) {
 	# FIXME: use layout() instead?
 	par(mar=c(8.1, 4.1, 4.1, 8.1))
-	plot(NA, xlim=c(1, ncol(cw)), ylim=c(0, max(cw)), xlab="", ylab="Weight", xaxt='n', bty='L')
-	for (i in 1:nrow(cw)) {
-		lines(cw[i,], pch=i, type="b")
+	plot(NA, xlim=c(1, ncol(x)), ylim=c(0, max(x)), xlab="", ylab="Weight", xaxt='n', bty='L')
+	for (i in 1:nrow(x)) {
+		lines(x[i,], pch=i, type="b")
 	}
-	axis(side=1, at=1:ncol(cw), labels=colnames(cw), las=2)
+	axis(side=1, at=1:ncol(x), labels=colnames(x), las=2)
 
-	legend("topright", inset=c(-0.25,0), legend=rownames(cw), pch=(1:nrow(cw)), xpd=TRUE)
+	legend("topright", inset=c(-0.25,0), legend=rownames(x), pch=(1:nrow(x)), xpd=TRUE)
 }
 
-print.smaa.cw <- function(cw, ...) {
-	print(unclass(cw))
+print.smaa.cw <- function(x, ...) {
+	print(unclass(x))
 }
 
 smaa.entropy.ranking <- function(ranks, p0=1) {
@@ -91,7 +91,7 @@ smaa.entropy.ranking <- function(ranks, p0=1) {
 }
 
 smaa.entropy.choice <- function(ra, p0=1) {
-  if (class(ra) == 'smaa.ranks') { ra <- smaa.ra(ranks) }
+  if (class(ra) == 'smaa.ranks') { ra <- smaa.ra(ra) }
   stopifnot(class(ra) == 'smaa.ra')
 	# FIXME: could implement this if I remembered whether row or columns are
 	# the alternatives.
