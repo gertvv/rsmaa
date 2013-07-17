@@ -117,7 +117,11 @@ smaa.cf <- function(meas, cw) {
   stopifnot(identical(dim(cw), c(m, n)))
 
   cf <- diag(apply(cw, 1, function(w) {
-    smaa.ra(smaa.ranks(smaa.values(meas, w)))[,1]
+    if (all(!is.na(w))) {
+      smaa.ra(smaa.ranks(smaa.values(meas, w)))[,1]
+    } else {
+      NA
+    }
   }))
 
   result <- list(cf=cf, cw=cw)
