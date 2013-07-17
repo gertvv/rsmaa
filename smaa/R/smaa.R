@@ -77,7 +77,8 @@ smaa.cw <- function(ranks, pref) {
 plot.smaa.cw <- function(x, ...) {
   # FIXME: use layout() instead?
   par(mar=c(8.1, 4.1, 4.1, 8.1))
-  plot(NA, xlim=c(1, ncol(x)), ylim=c(0, max(x)), xlab="", ylab="Weight", xaxt='n', bty='L', ...)
+  plot(NA, xlim=c(1, ncol(x)), ylim=c(0, max(x)), xlab="", ylab="Weight", xaxt='n', bty='L',
+    main='Central weights', ...)
   for (i in 1:nrow(x)) {
     lines(x[i,], pch=i, type="b")
   }
