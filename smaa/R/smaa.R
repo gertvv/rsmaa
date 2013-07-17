@@ -52,11 +52,13 @@ smaa.ra <- function(ranks) {
 }
 
 plot.smaa.ra <- function(x, ...) {
-	barplot(t(x))
+	barplot(t(x), main="Rank acceptabilities", ...)
 }
 
 print.smaa.ra <- function(x, ...) {
-	print(unclass(x))
+  cat(paste("Rank acceptabilities (N = ", attr(x, "smaa.N"), " iterations): \n", sep=""))
+  attr(x, "smaa.N") <- NULL
+	print(unclass(x), ...)
 }
 
 smaa.cw <- function(ranks, pref) {
@@ -75,7 +77,7 @@ smaa.cw <- function(ranks, pref) {
 plot.smaa.cw <- function(x, ...) {
 	# FIXME: use layout() instead?
 	par(mar=c(8.1, 4.1, 4.1, 8.1))
-	plot(NA, xlim=c(1, ncol(x)), ylim=c(0, max(x)), xlab="", ylab="Weight", xaxt='n', bty='L')
+	plot(NA, xlim=c(1, ncol(x)), ylim=c(0, max(x)), xlab="", ylab="Weight", xaxt='n', bty='L', ...)
 	for (i in 1:nrow(x)) {
 		lines(x[i,], pch=i, type="b")
 	}
@@ -85,7 +87,9 @@ plot.smaa.cw <- function(x, ...) {
 }
 
 print.smaa.cw <- function(x, ...) {
-	print(unclass(x))
+  cat(paste("Central weights (N = ", attr(x, "smaa.N"), " iterations): \n", sep=""))
+  attr(x, "smaa.N") <- NULL
+	print(unclass(x), ...)
 }
 
 smaa.entropy.ranking <- function(ranks, p0=1) {
@@ -129,4 +133,14 @@ smaa <- function(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1]) {
   result <- list(cw=cw, ra=ra)
   class(result) <- "smaa.result"
   result
+}
+
+print.smaa.result <- function(x, ...) {
+  print(x$ra)
+  cat("\n")
+  print(x$cw)
+}
+
+plot.smaa.result <- function(x, ...) {
+  plot(x$ra, ...)
 }
