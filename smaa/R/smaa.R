@@ -47,6 +47,7 @@ smaa.ra <- function(ranks) {
   m <- dim(ranks)[2]
 
   ra <- t(apply(ranks, 2, tabulate, nbins=m) / N)
+  attr(ra, "smaa.N") <- N
   class(ra) <- "smaa.ra"
   ra
 }
@@ -70,6 +71,7 @@ smaa.cw <- function(ranks, pref) {
   cw <- t(apply(ranks, 2, function(r) {
     apply(pref[r == 1, ], 2, mean)
   }))
+  attr(cw, "smaa.N") <- N
   class(cw) <- "smaa.cw"
   cw
 }
