@@ -37,5 +37,8 @@ pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
 result <- smaa(meas, pref)
 print(result)
 plot(result)
+
+result <- smaa(meas, c(0.5, 0.2, 0.3))
+print(result)
 }
 \keyword{SMAA}

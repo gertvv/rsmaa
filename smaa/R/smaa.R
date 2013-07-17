@@ -2,11 +2,11 @@ smaa.values <- function(meas, pref) {
   N <- dim(meas)[1]
   m <- dim(meas)[2]
   n <- dim(meas)[3]
-  stopifnot(identical(dim(pref), c(N, n)))
+  stopifnot(identical(dim(pref), c(N, n)) || identical(length(pref), n))
 
   values <- t(.C("smaa_values",
     as.double(aperm(meas, c(2,3,1))), as.double(t(pref)),
-    as.integer(N), as.integer(m), as.integer(n),
+    as.integer(N), as.integer(m), as.integer(n), is.vector(pref),
     v=matrix(0.0, nrow=m, ncol=N))$v)
   dimnames(values) <- dimnames(meas)[1:2]
   class(values) <- "smaa.values"
@@ -117,7 +117,6 @@ smaa.cf <- function(meas, cw) {
   stopifnot(identical(dim(cw), c(m, n)))
 
   cf <- diag(apply(cw, 1, function(w) {
-    w <- matrix(w, nrow=N, ncol=n, byrow=TRUE)
     smaa.ra(smaa.ranks(smaa.values(meas, w)))[,1]
   }))
 
@@ -143,10 +142,10 @@ smaa <- function(meas, pref) {
   N <- dim(meas)[1]
   m <- dim(meas)[2]
   n <- dim(meas)[3]
-  stopifnot(identical(dim(pref), c(N, n)))
+  stopifnot(identical(dim(pref), c(N, n)) || identical(length(pref), n))
 
   result <- .C("smaa", as.double(aperm(meas, c(2,3,1))), as.double(t(pref)),
-    as.integer(N), as.integer(m), as.integer(n),
+    as.integer(N), as.integer(m), as.integer(n), is.vector(pref),
     h=matrix(0, nrow=m, ncol=m),
     cw=matrix(0, nrow=m, ncol=n),
     NAOK=FALSE, DUP=FALSE)
