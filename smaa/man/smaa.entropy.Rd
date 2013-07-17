@@ -49,4 +49,19 @@ is currently unknown.
 \code{\link{smaa.ra}}
 }
 \examples{
+N <- 1E4; m <- 2; n <- 3
+meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+
+# Calculate ranks
+values <- smaa.values(meas, pref)
+ranks <- smaa.ranks(values)
+
+# Calculate ranking entropy
+smaa.entropy.ranking(ranks)
+
+# Calculate choice entropy
+# (equal to ranking entropy because there are only two alternatives)
+smaa.entropy.choice(ranks)
+smaa.entropy.choice(smaa.ra(ranks))
 }

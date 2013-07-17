@@ -27,6 +27,18 @@ rankings. Instead, only standard summary metrics are provided.
   \item{cw}{Central weights (see \code{\link{smaa.cw}}).}
 }
 \examples{
+N <- 1E4; m <- 2; n <- 3
+meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
 
+# Sample / read weights
+\dontrun{
+library(hitandrun)
+pref <- simplex.sample(n, N)$samples}
+pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+
+# Calculate SMAA metrics
+result <- smaa(meas, pref)
+print(result)
+plot(result)
 }
 \keyword{SMAA}

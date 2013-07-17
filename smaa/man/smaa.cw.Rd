@@ -30,4 +30,14 @@ Gert van Valkenhoef
 \code{\link{smaa.ranks}}
 }
 \examples{
+N <- 1E4; m <- 2; n <- 3
+meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+
+# Calculate central weights
+values <- smaa.values(meas, pref)
+ranks <- smaa.ranks(values)
+cw <- smaa.cw(ranks, pref)
+print(cw)
+plot(cw)
 }

@@ -33,8 +33,7 @@ meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
 # Sample / read weights
 \dontrun{
 library(hitandrun)
-pref <- simplex.sample(n, N)$samples
-}
+pref <- simplex.sample(n, N)$samples}
 pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
 
 # Calculate alternative values
@@ -43,6 +42,5 @@ summary(values)
 plot(values)
 
 values.expected <- dget(system.file("extdata/thrombo-values-nopref.txt", package="smaa"))
-
 stopifnot(all.equal(values, values.expected))
 }
