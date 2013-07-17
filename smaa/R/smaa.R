@@ -13,6 +13,11 @@ smaa.values <- function(meas, pref) {
 	values
 }
 
+plot.smaa.values <- function(x, ...) {
+  boxplot(lapply(apply(x, 2, function(y) { list(y) }), function(z) { unlist(z) }),
+    main="Alternative values")
+}
+
 smaa.ranks <- function(values) {
 	N <- dim(values)[1]
 	m <- dim(values)[2]

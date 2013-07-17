@@ -10,5 +10,7 @@ S3method(plot, smaa.ra)
 S3method(print, smaa.cw)
 S3method(plot, smaa.cw)
 
+S3method(plot, smaa.values)
+
 export(smaa, smaa.values, smaa.ranks, smaa.ra, smaa.cw,
 	smaa.entropy.ranking, smaa.entropy.choice)
