@@ -24,6 +24,69 @@ Type 'q()' to quit R.
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 > cleanEx()
+> nameEx("smaa-package")
+> ### * smaa-package
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa-package
+> ### Title: SMAA: Stochastic Multi-criteria Acceptability Analysis
+> ### Aliases: smaa-package
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate SMAA metrics (one-stage)
+> result <- smaa(meas, pref)
+> print(result)
+Rank acceptabilities (N = 10000 iterations): 
+             [,1]   [,2]
+Heparin    0.3504 0.6496
+Enoxaparin 0.6496 0.3504
+
+Central weights (N = 10000 iterations): 
+            Prox DVT  Dist DVT     Bleed
+Heparin    0.1865097 0.2772205 0.5362698
+Enoxaparin 0.4073100 0.3641477 0.2285423
+> 
+> # Calculate SMAA metrics (multi-stage)
+> values <- smaa.values(meas, pref)
+> summary(values)
+    Heparin          Enoxaparin    
+ Min.   :-0.1642   Min.   :0.1176  
+ 1st Qu.: 0.4879   1st Qu.:0.5974  
+ Median : 0.5885   Median :0.6690  
+ Mean   : 0.5895   Mean   :0.6584  
+ 3rd Qu.: 0.6950   3rd Qu.:0.7309  
+ Max.   : 0.9734   Max.   :0.9371  
+> ranks <- smaa.ranks(values)
+> smaa.ra(ranks)
+Rank acceptabilities (N = 10000 iterations): 
+             [,1]   [,2]
+Heparin    0.3504 0.6496
+Enoxaparin 0.6496 0.3504
+> smaa.entropy.ranking(ranks)
+[1] 0.9344248
+> smaa.cw(ranks, pref)
+Central weights (N = 10000 iterations): 
+            Prox DVT  Dist DVT     Bleed
+Heparin    0.1865097 0.2772205 0.5362698
+Enoxaparin 0.4073100 0.3641477 0.2285423
+> 
+> # Calculate confidence factors
+> smaa.cf(meas, result$cw)
+Central weights (N = 10000 iterations) and
+  confidence factors (N = 10000 iterations): 
+                   Prox DVT  Dist DVT     Bleed
+Heparin    0.6682 0.1865097 0.2772205 0.5362698
+Enoxaparin 0.8956 0.4073100 0.3641477 0.2285423
+> 
+> 
+> 
+> cleanEx()
 > nameEx("smaa")
 > ### * smaa
 > 
@@ -274,7 +337,7 @@ Enoxaparin 0.6496 0.3504
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.008 0.128 2.14 0 0 
+Time elapsed:  2.42 0.16 2.585 0 0 
 > grDevices::dev.off()
 null device 
           1 
