@@ -5,7 +5,7 @@
 Calculate SMAA decision indices based on a set of samples from the criteria values discribution and a set of samples from the feasible weight space.
 }
 \usage{
-    smaa(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1])
+    smaa(meas, pref)
 }
 \arguments{
   \item{meas}{Criteria measurements. An \eqn{N \times m \times n}{N * m * n}
@@ -14,9 +14,6 @@ rows and the n criteria the columns. The values must be standardized
 measurements (i.e.  after application of the partial value function).}
   \item{pref}{Weights. An \eqn{N \times n}{N * n} array, where \code{pref[i,]}
 is a normalized weight vector.}
-  \item{m}{Number of alternatives.}
-  \item{n}{Number of criteria.}
-  \item{N}{Number of iterations.}
 }
 \details{
 The one-stage method does not store the alternatives' values or the raw
