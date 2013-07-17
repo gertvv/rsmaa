@@ -1,0 +1,286 @@
+
+R version 3.0.1 (2013-05-16) -- "Good Sport"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: i686-pc-linux-gnu (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "smaa"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('smaa')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("smaa")
+> ### * smaa
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa
+> ### Title: One-stage SMAA analysis
+> ### Aliases: smaa
+> ### Keywords: SMAA
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> 
+> # Sample / read weights
+> ## Not run: 
+> ##D library(hitandrun)
+> ##D pref <- simplex.sample(n, N)$samples
+> ## End(Not run)
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate SMAA metrics
+> result <- smaa(meas, pref)
+> print(result)
+Rank acceptabilities (N = 10000 iterations): 
+             [,1]   [,2]
+Heparin    0.3504 0.6496
+Enoxaparin 0.6496 0.3504
+
+Central weights (N = 10000 iterations): 
+            Prox DVT  Dist DVT     Bleed
+Heparin    0.1865097 0.2772205 0.5362698
+Enoxaparin 0.4073100 0.3641477 0.2285423
+> plot(result)
+> 
+> result <- smaa(meas, c(0.5, 0.2, 0.3))
+> print(result)
+Rank acceptabilities (N = 10000 iterations): 
+             [,1]   [,2]
+Heparin    0.1279 0.8721
+Enoxaparin 0.8721 0.1279
+
+Central weights (N = 10000 iterations): 
+           Prox DVT Dist DVT Bleed
+Heparin          NA       NA    NA
+Enoxaparin       NA       NA    NA
+> 
+> 
+> 
+> cleanEx()
+> nameEx("smaa.cf")
+> ### * smaa.cf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.cf
+> ### Title: SMAA confidence factors
+> ### Aliases: smaa.cf
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate central weights
+> values <- smaa.values(meas, pref)
+> ranks <- smaa.ranks(values)
+> cw <- smaa.cw(ranks, pref)
+> print(cw)
+Central weights (N = 10000 iterations): 
+            Prox DVT  Dist DVT     Bleed
+Heparin    0.1865097 0.2772205 0.5362698
+Enoxaparin 0.4073100 0.3641477 0.2285423
+> cf <- smaa.cf(meas, cw)
+> print(cf)
+Central weights (N = 10000 iterations) and
+  confidence factors (N = 10000 iterations): 
+                   Prox DVT  Dist DVT     Bleed
+Heparin    0.6682 0.1865097 0.2772205 0.5362698
+Enoxaparin 0.8956 0.4073100 0.3641477 0.2285423
+> plot(cf)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("smaa.cw")
+> ### * smaa.cw
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.cw
+> ### Title: SMAA central weights
+> ### Aliases: smaa.cw
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate central weights
+> values <- smaa.values(meas, pref)
+> ranks <- smaa.ranks(values)
+> cw <- smaa.cw(ranks, pref)
+> print(cw)
+Central weights (N = 10000 iterations): 
+            Prox DVT  Dist DVT     Bleed
+Heparin    0.1865097 0.2772205 0.5362698
+Enoxaparin 0.4073100 0.3641477 0.2285423
+> plot(cw)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("smaa.entropy")
+> ### * smaa.entropy
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.entropy
+> ### Title: Decision entropy
+> ### Aliases: smaa.entropy smaa.entropy.ranking smaa.entropy.choice
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate ranks
+> values <- smaa.values(meas, pref)
+> ranks <- smaa.ranks(values)
+> 
+> # Calculate ranking entropy
+> smaa.entropy.ranking(ranks)
+[1] 0.9344248
+> 
+> # Calculate choice entropy
+> # (equal to ranking entropy because there are only two alternatives)
+> smaa.entropy.choice(ranks)
+[1] 0.9344248
+> smaa.entropy.choice(smaa.ra(ranks))
+[1] 0.9344248
+> 
+> 
+> 
+> cleanEx()
+> nameEx("smaa.ra")
+> ### * smaa.ra
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.ra
+> ### Title: SMAA rank acceptabilities
+> ### Aliases: smaa.ra
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate rank acceptabilities
+> values <- smaa.values(meas, pref)
+> ranks <- smaa.ranks(values)
+> ra <- smaa.ra(ranks)
+> print(ra)
+Rank acceptabilities (N = 10000 iterations): 
+             [,1]   [,2]
+Heparin    0.3504 0.6496
+Enoxaparin 0.6496 0.3504
+> plot(ra)
+> 
+> 
+> 
+> cleanEx()
+> nameEx("smaa.ranks")
+> ### * smaa.ranks
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.ranks
+> ### Title: SMAA ranking
+> ### Aliases: smaa.ranks
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate alternative ranks
+> values <- smaa.values(meas, pref)
+> ranks <- smaa.ranks(values)
+> summary(ranks)
+Rank acceptabilities (N = 10000 iterations): 
+             [,1]   [,2]
+Heparin    0.3504 0.6496
+Enoxaparin 0.6496 0.3504
+> 
+> ranks.expected <- dget(system.file("extdata/thrombo-ranks-nopref.txt", package="smaa"))
+> stopifnot(all.equal(ranks, ranks.expected))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("smaa.values")
+> ### * smaa.values
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.values
+> ### Title: SMAA alternative values
+> ### Aliases: smaa.values
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> 
+> # Sample / read weights
+> ## Not run: 
+> ##D library(hitandrun)
+> ##D pref <- simplex.sample(n, N)$samples
+> ## End(Not run)
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> 
+> # Calculate alternative values
+> values <- smaa.values(meas, pref)
+> summary(values)
+    Heparin          Enoxaparin    
+ Min.   :-0.1642   Min.   :0.1176  
+ 1st Qu.: 0.4879   1st Qu.:0.5974  
+ Median : 0.5885   Median :0.6690  
+ Mean   : 0.5895   Mean   :0.6584  
+ 3rd Qu.: 0.6950   3rd Qu.:0.7309  
+ Max.   : 0.9734   Max.   :0.9371  
+> plot(values)
+> 
+> values.expected <- dget(system.file("extdata/thrombo-values-nopref.txt", package="smaa"))
+> stopifnot(all.equal(values, values.expected))
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  2.008 0.128 2.14 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
