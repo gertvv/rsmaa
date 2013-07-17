@@ -93,8 +93,9 @@ smaa.entropy.ranking <- function(ranks, p0=1) {
 smaa.entropy.choice <- function(ra, p0=1) {
   if (class(ra) == 'smaa.ranks') { ra <- smaa.ra(ra) }
   stopifnot(class(ra) == 'smaa.ra')
-	# FIXME: could implement this if I remembered whether row or columns are
-	# the alternatives.
+
+  p <- ra[, 1] * p0 # first-rank acceptabilities
+  -sum(p * log2(p))
 }
 
 smaa <- function(meas, pref, m=dim(meas)[2], n=dim(meas)[3], N=dim(meas)[1]) {
