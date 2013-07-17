@@ -1,5 +1,10 @@
 useDynLib(smaa)
 
+S3method(print, smaa.result)
+S3method(plot, smaa.result)
+
+S3method(plot, smaa.values)
+
 S3method(print, smaa.ranks)
 S3method(plot, smaa.ranks)
 S3method(summary, smaa.ranks)
@@ -10,10 +15,9 @@ S3method(plot, smaa.ra)
 S3method(print, smaa.cw)
 S3method(plot, smaa.cw)
 
-S3method(plot, smaa.values)
+S3method(print, smaa.cf)
+S3method(plot, smaa.cf)
 
-S3method(print, smaa.result)
-S3method(plot, smaa.result)
-
-export(smaa, smaa.values, smaa.ranks, smaa.ra, smaa.cw,
+export(smaa, smaa.values, smaa.ranks,
+	smaa.ra, smaa.cw, smaa.cf,
 	smaa.entropy.ranking, smaa.entropy.choice)

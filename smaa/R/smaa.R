@@ -110,6 +110,35 @@ smaa.entropy.choice <- function(ra, p0=1) {
   -sum(p * log2(p))
 }
 
+smaa.cf <- function(meas, cw) {
+  N <- dim(meas)[1]
+  m <- dim(meas)[2]
+  n <- dim(meas)[3]
+  stopifnot(identical(dim(cw), c(m, n)))
+
+  cf <- diag(apply(cw, 1, function(w) {
+    w <- matrix(w, nrow=N, ncol=n, byrow=TRUE)
+    smaa.ra(smaa.ranks(smaa.values(meas, w)))[,1]
+  }))
+
+  result <- list(cf=cf, cw=cw)
+  attr(result, "smaa.N") <- N
+  class(result) <- "smaa.cf"
+
+  result
+}
+
+print.smaa.cf <- function(x, ...) {
+  cat(paste("Central weights (N = ", attr(x$cw, "smaa.N"), " iterations) and\n",
+    "  confidence factors (N = ", attr(x, "smaa.N"), " iterations): \n", sep=""))
+  attr(x, "smaa.N") <- NULL
+  print(cbind(x$cf, x$cw), ...)
+}
+
+plot.smaa.cf <- function(x, ...) {
+  plot(x$cw)
+}
+
 smaa <- function(meas, pref) {
   N <- dim(meas)[1]
   m <- dim(meas)[2]
