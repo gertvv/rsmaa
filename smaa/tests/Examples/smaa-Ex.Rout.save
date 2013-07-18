@@ -36,8 +36,8 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate SMAA metrics (one-stage)
 > result <- smaa(meas, pref)
@@ -100,14 +100,14 @@ Enoxaparin 0.8956 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
 > 
 > # Sample / read weights
 > ## Not run: 
 > ##D library(hitandrun)
 > ##D pref <- simplex.sample(n, N)$samples
 > ## End(Not run)
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate SMAA metrics
 > result <- smaa(meas, pref)
@@ -150,8 +150,8 @@ Enoxaparin       NA       NA    NA
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate central weights
 > values <- smaa.values(meas, pref)
@@ -186,8 +186,8 @@ Enoxaparin 0.8956 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate central weights
 > values <- smaa.values(meas, pref)
@@ -215,8 +215,8 @@ Enoxaparin 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate ranks
 > values <- smaa.values(meas, pref)
@@ -248,8 +248,8 @@ Enoxaparin 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate rank acceptabilities
 > values <- smaa.values(meas, pref)
@@ -277,8 +277,8 @@ Enoxaparin 0.6496 0.3504
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate alternative ranks
 > values <- smaa.values(meas, pref)
@@ -289,7 +289,7 @@ Rank acceptabilities (N = 10000 iterations):
 Heparin    0.3504 0.6496
 Enoxaparin 0.6496 0.3504
 > 
-> ranks.expected <- dget(system.file("extdata/thrombo-ranks-nopref.txt", package="smaa"))
+> ranks.expected <- dget(system.file("extdata/thrombo-ranks-nopref.txt.gz", package="smaa"))
 > stopifnot(all.equal(ranks, ranks.expected))
 > 
 > 
@@ -307,14 +307,14 @@ Enoxaparin 0.6496 0.3504
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
 > 
 > # Sample / read weights
 > ## Not run: 
 > ##D library(hitandrun)
 > ##D pref <- simplex.sample(n, N)$samples
 > ## End(Not run)
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 > 
 > # Calculate alternative values
 > values <- smaa.values(meas, pref)
@@ -328,7 +328,7 @@ Enoxaparin 0.6496 0.3504
  Max.   : 0.9734   Max.   :0.9371  
 > plot(values)
 > 
-> values.expected <- dget(system.file("extdata/thrombo-values-nopref.txt", package="smaa"))
+> values.expected <- dget(system.file("extdata/thrombo-values-nopref.txt.gz", package="smaa"))
 > stopifnot(all.equal(values, values.expected))
 > 
 > 
@@ -337,7 +337,7 @@ Enoxaparin 0.6496 0.3504
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.42 0.16 2.585 0 0 
+Time elapsed:  3.312 0.18 3.494 0 0 
 > grDevices::dev.off()
 null device 
           1 

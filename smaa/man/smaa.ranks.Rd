@@ -29,14 +29,14 @@ The value is given class \code{smaa.ranks}, use \code{unclass(x)} to treat it as
 }
 \examples{
 N <- 1E4; m <- 2; n <- 3
-meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 
 # Calculate alternative ranks
 values <- smaa.values(meas, pref)
 ranks <- smaa.ranks(values)
 summary(ranks)
 
-ranks.expected <- dget(system.file("extdata/thrombo-ranks-nopref.txt", package="smaa"))
+ranks.expected <- dget(system.file("extdata/thrombo-ranks-nopref.txt.gz", package="smaa"))
 stopifnot(all.equal(ranks, ranks.expected))
 }

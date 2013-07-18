@@ -25,13 +25,13 @@ rankings. Instead, only standard summary metrics are provided.
 }
 \examples{
 N <- 1E4; m <- 2; n <- 3
-meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
 
 # Sample / read weights
 \dontrun{
 library(hitandrun)
 pref <- simplex.sample(n, N)$samples}
-pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 
 # Calculate SMAA metrics
 result <- smaa(meas, pref)

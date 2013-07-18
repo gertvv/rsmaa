@@ -28,19 +28,19 @@ Gert van Valkenhoef
 }
 \examples{
 N <- 1E4; m <- 2; n <- 3
-meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
+meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
 
 # Sample / read weights
 \dontrun{
 library(hitandrun)
 pref <- simplex.sample(n, N)$samples}
-pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 
 # Calculate alternative values
 values <- smaa.values(meas, pref)
 summary(values)
 plot(values)
 
-values.expected <- dget(system.file("extdata/thrombo-values-nopref.txt", package="smaa"))
+values.expected <- dget(system.file("extdata/thrombo-values-nopref.txt.gz", package="smaa"))
 stopifnot(all.equal(values, values.expected))
 }

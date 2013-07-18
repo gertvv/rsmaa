@@ -29,8 +29,8 @@ Gert van Valkenhoef
 }
 \examples{
 N <- 1E4; m <- 2; n <- 3
-meas <- dget(system.file("extdata/thrombo-meas.txt", package="smaa"))
-pref <- dget(system.file("extdata/thrombo-weights-nopref.txt", package="smaa"))
+meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
 
 # Calculate rank acceptabilities
 values <- smaa.values(meas, pref)
