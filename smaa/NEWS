@@ -1,0 +1,15 @@
+smaa 0.1-1
+==========
+
+Released 2013-07-19
+
+ * Fix Windows build.
+
+smaa 0.1
+==========
+
+Released 2013-07-18
+
+ * Initial release. Computation of alternative values, rankings, rank
+   acceptabilities, central weights, confidence factors, decision entropy.
+   Appropriate summaries and plots.

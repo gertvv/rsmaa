@@ -1,6 +1,6 @@
 Package: smaa
-Version: 0.1
-Date: 2013-07-18
+Version: 0.1-1
+Date: 2013-07-19
 Title: Stochastic Multi-criteria Acceptability Analysis
 Author: Gert van Valkenhoef
 Maintainer: Gert van Valkenhoef <g.h.m.van.valkenhoef@rug.nl>
