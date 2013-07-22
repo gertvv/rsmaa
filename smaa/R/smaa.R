@@ -69,8 +69,9 @@ smaa.cw <- function(ranks, pref) {
   stopifnot(identical(dim(pref), c(N, n)))
 
   cw <- t(apply(ranks, 2, function(r) {
-    apply(pref[r == 1, ], 2, mean)
+    apply(pref[r == 1, , drop = FALSE], 2, mean)
   }))
+  cw[is.nan(cw)] <- NA
   attr(cw, "smaa.N") <- N
   class(cw) <- "smaa.cw"
   cw

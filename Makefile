@@ -6,7 +6,7 @@ PACKAGE := $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 all: $(PACKAGE)
 
-$(PACKAGE): $(PKG_NAME)/src/*.c $(PKG_NAME)/R/*.R $(PKG_NAME)/man/*.Rd $(PKG_NAME)/DESCRIPTION $(PKG_NAME)/NAMESPACE $(PKG_NAME)/inst/extdata/* $(PKG_NAME)/tests/Examples/*
+$(PACKAGE): $(PKG_NAME)/src/*.c $(PKG_NAME)/R/*.R $(PKG_NAME)/man/*.Rd $(PKG_NAME)/DESCRIPTION $(PKG_NAME)/NAMESPACE $(PKG_NAME)/inst/extdata/* $(PKG_NAME)/tests/Examples/* $(PKG_NAME)/tests/*.R
 	R CMD build $(PKG_NAME)
 
 install: $(PACKAGE)
