@@ -1,3 +1,9 @@
+smaa 0.1-2
+==========
+
+ * Fix central weights in case alternative obtains first rank in exactly one
+   iteration.
+
 smaa 0.1-1
 ==========
 
