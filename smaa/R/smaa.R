@@ -64,7 +64,6 @@ print.smaa.ra <- function(x, ...) {
 
 smaa.cw <- function(ranks, pref) {
   N <- dim(ranks)[1]
-  m <- dim(ranks)[2]
   n <- dim(pref)[2]
   stopifnot(identical(dim(pref), c(N, n)))
 
@@ -83,7 +82,7 @@ plot.smaa.cw <- function(x, ...) {
   plot(NA, xlim=c(1, ncol(x)), ylim=c(0, max(x)), xlab="", ylab="Weight", xaxt='n', bty='L',
     main='Central weights', ...)
   for (i in 1:nrow(x)) {
-    lines(x[i,], pch=i, type="b")
+    lines(x[i, , drop=TRUE], pch=i, type="b")
   }
   axis(side=1, at=1:ncol(x), labels=colnames(x), las=2)
 
