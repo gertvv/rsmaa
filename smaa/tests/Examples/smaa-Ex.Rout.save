@@ -236,6 +236,27 @@ Enoxaparin 0.4073100 0.3641477 0.2285423
 > 
 > 
 > cleanEx()
+> nameEx("smaa.pvf")
+> ### * smaa.pvf
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.pvf
+> ### Title: Compute piece-wise linear partial value functions
+> ### Aliases: smaa.pvf
+> 
+> ### ** Examples
+> 
+> x <- c(50, 90, 100, 10, 40, 101, 120)
+> values <- smaa.pvf(x,
++   cutoffs=c(50, 75, 90, 100),
++   values=c(1, 0.8, 0.5, 0),
++   outOfBounds="clip")
+> stopifnot(all.equal(values, c(1.0, 0.5, 0.0, 1.0, 1.0, 0.0, 0.0)))
+> 
+> 
+> 
+> cleanEx()
 > nameEx("smaa.ra")
 > ### * smaa.ra
 > 
@@ -337,7 +358,7 @@ Enoxaparin 0.6496 0.3504
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  3.312 0.18 3.494 0 0 
+Time elapsed:  3.524 0.24 4.016 0 0 
 > grDevices::dev.off()
 null device 
           1 
