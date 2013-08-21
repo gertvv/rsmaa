@@ -1,2 +1,2 @@
 PKG_LIBS=$(BLAS_LIBS) $(FLIBS)
-OBJECTS=smaa.o
+OBJECTS=smaa.o pvf.o
