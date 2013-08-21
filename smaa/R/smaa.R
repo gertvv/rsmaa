@@ -120,7 +120,7 @@ smaa.cf <- function(meas, cw) {
     if (all(!is.na(w))) {
       smaa.ra(smaa.ranks(smaa.values(meas, w)))[,1]
     } else {
-      NA
+      rep(NA, m)
     }
   }))
 
@@ -180,4 +180,28 @@ print.smaa.result <- function(x, ...) {
 
 plot.smaa.result <- function(x, ...) {
   plot(x$ra, ...)
+}
+
+smaa.pvf <- function(x, cutoffs, values, outOfBounds="error") {
+  stopifnot(length(cutoffs) == length(values))
+  stopifnot(outOfBounds %in% c("error", "clip", "interpolate"))
+  n <- length(cutoffs)
+  N <- length(x)
+
+  v <- .C("smaa_pvf",
+    as.double(x), as.integer(N),
+    as.double(cutoffs), as.double(values), as.integer(n),
+    v=vector(mode="double", length=N))$v
+
+  clip <- function(v) {
+    w <- v
+    w[v < 0] <- 0
+    w[v > 1] <- 1
+    w
+  }
+
+  switch(outOfBounds,
+         error=(function(v) { stopifnot(all(v >= 0) && all(v <= 1)); v })(v),
+         clip=clip(v),
+         interpolate=v)
 }
