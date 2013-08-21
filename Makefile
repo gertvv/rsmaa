@@ -10,7 +10,9 @@ $(PACKAGE): $(PKG_NAME)/src/*.c $(PKG_NAME)/R/*.R $(PKG_NAME)/man/*.Rd $(PKG_NAM
 	R CMD build $(PKG_NAME)
 
 install: $(PACKAGE)
-	R CMD check $(PACKAGE)
 	R CMD INSTALL $(PACKAGE)
+
+check: $(PACKAGE)
+	R CMD check $(PACKAGE)
 
 .PHONY: all install
