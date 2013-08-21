@@ -120,7 +120,7 @@ smaa.cf <- function(meas, cw) {
     if (all(!is.na(w))) {
       smaa.ra(smaa.ranks(smaa.values(meas, w)))[,1]
     } else {
-      NA
+      rep(NA, m)
     }
   }))
 
