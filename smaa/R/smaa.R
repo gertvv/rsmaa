@@ -123,6 +123,7 @@ smaa.cf <- function(meas, cw) {
       rep(NA, m)
     }
   }))
+  names(cf) <- rownames(cw)
 
   result <- list(cf=cf, cw=cw)
   attr(result, "smaa.N") <- N
