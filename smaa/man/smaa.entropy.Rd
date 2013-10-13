@@ -58,10 +58,13 @@ values <- smaa.values(meas, pref)
 ranks <- smaa.ranks(values)
 
 # Calculate ranking entropy
-smaa.entropy.ranking(ranks)
+entranking <- smaa.entropy.ranking(ranks)
 
 # Calculate choice entropy
 # (equal to ranking entropy because there are only two alternatives)
-smaa.entropy.choice(ranks)
+entchoice <- smaa.entropy.choice(ranks)
 smaa.entropy.choice(smaa.ra(ranks))
+
+stopifnot(abs(entranking < entchoice) < 1E-10)
+
 }
