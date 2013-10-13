@@ -107,6 +107,7 @@ smaa.entropy.choice <- function(ra, p0=1) {
   stopifnot(class(ra) == 'smaa.ra')
 
   p <- ra[, 1] * p0 # first-rank acceptabilities
+  p <- p[p > 0]
   -sum(p * log2(p))
 }
 
