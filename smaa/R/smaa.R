@@ -97,8 +97,14 @@ print.smaa.cw <- function(x, ...) {
 
 smaa.entropy.ranking <- function(ranks, p0=1) {
   N <- dim(ranks)[1]
+  m <- dim(ranks)[2]
 
-  p <- rle(sort(apply(ranks, 1, paste, collapse=".")))$lengths / N * p0
+	counts <- .C("smaa_countRankings", as.integer(t(ranks)),
+	  as.integer(N), as.integer(m),
+	  counts=as.integer(rep(0, N)),
+	  NAOK=FALSE, DUP=FALSE)$counts
+
+  p <- counts[counts > 0] / N * p0
   -sum(p * log2(p))
 }
 
