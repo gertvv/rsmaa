@@ -1,3 +1,12 @@
+smaa 0.2-1
+==========
+
+ * Make smaa.cf preserve dimnames
+
+ * Bugfix: check for 0 in smaa.entropy.choice
+
+ * Implement smaa.entropy.ranking in C for 40x performance increase
+
 smaa 0.2
 ==========
 
