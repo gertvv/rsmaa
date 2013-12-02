@@ -1,3 +1,8 @@
+smaa 0.2-2
+==========
+
+ * Correctly use C99 "inline" facility
+
 smaa 0.2-1
 ==========
 
