@@ -52,6 +52,18 @@ smaa.ra <- function(ranks) {
   ra
 }
 
+smaa.pwi <- function(ranks) {
+    nAlts <- ncol(ranks)
+    nSamples <- nrow(ranks)
+    grid <- expand.grid(1:nAlts, 1:nAlts)
+    pwi <- matrix(apply(grid, 1, function(x) {
+        sum(ranks[,x[1]] < ranks[,x[2]]) / nSamples
+    }), ncol=nAlts)
+    colnames(pwi) <- colnames(ranks)
+    rownames(pwi) <- colnames(ranks)
+    pwi
+}
+
 plot.smaa.ra <- function(x, ...) {
   barplot(t(x), main="Rank acceptabilities", ...)
 }
