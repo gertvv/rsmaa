@@ -1,10 +1,9 @@
 #include <R.h>
+#include <Rinternals.h>
 #include <R_ext/BLAS.h>
 
 #include <math.h>
 #include <stdlib.h>
-
-#include <stdio.h>
 
 typedef struct Matrix {
   double * const data;
@@ -36,88 +35,143 @@ static inline void smaa_rank(double const *t, int *r, int n) {
   }
 }
 
-void smaa_ranks(
-    double const *v,
-    int const *nIter, int const *nAlt,
-    int *r) {
-  for (int k = 0; k < *nIter; ++k) {
-    smaa_rank(v, r, *nAlt);
+/*
+ * Calculate ranks from values
+ * @param _v: m * N matrix of values
+ * @return m * N array of ranks
+ */
+SEXP smaa_ranks(SEXP _v) {
+  int const nAlt = nrows(_v);
+  int const nIter = ncols(_v);
 
-    v += *nAlt;
-    r += *nAlt;
+  _v = PROTECT(coerceVector(_v, REALSXP));
+  double const *v = REAL(_v);
+
+  SEXP _r = PROTECT(allocMatrix(INTSXP, nAlt, nIter));
+  int *r = INTEGER(_r);
+
+  for (int k = 0; k < nIter; ++k) {
+    smaa_rank(v, r, nAlt);
+
+    v += nAlt;
+    r += nAlt;
   }
+
+  UNPROTECT(2);
+  return _r;
 }
 
-void smaa_values(
-    double const *meas, double const *pref,
-    int const *nIter, int const *nAlt, int const *nCrit,
-    int const *singleWeight,
-    double *v) {
+/*
+ * Calculate aggregate values from partial values
+ * @param _meas: m * n * N array of partial values
+ * @param _pref: n * N matrix of weights, or a single n-vector
+ * @param _singleWeight: TRUE iff _pref is a single n-vector
+ * @return m * N matrix of values
+ */
+SEXP smaa_values(SEXP _meas, SEXP _pref, SEXP _singleWeight) {
+  SEXP dim = getAttrib(_meas, R_DimSymbol);
+  int const nAlt  = INTEGER(dim)[0];
+  int const nCrit = INTEGER(dim)[1];
+  int const nIter = INTEGER(dim)[2];
+  int const singleWeight = asLogical(_singleWeight);
   const int inc1 = 1;
   const double one = 1.0, zero = 0.0; // for BLAS
   const char trans = 'N';
 
-  for (int k = 0; k < *nIter; ++k) {
+  _meas = PROTECT(coerceVector(_meas, REALSXP));
+  _pref = PROTECT(coerceVector(_pref, REALSXP));
+  double const *meas = REAL(_meas);
+  double const *pref = REAL(_pref);
+
+  SEXP _v = PROTECT(allocMatrix(REALSXP, nAlt, nIter));
+  double *v = REAL(_v);
+
+  for (int k = 0; k < nIter; ++k) {
     // calculate value of each alternative
-    F77_CALL(dgemv)(&trans, nAlt, nCrit,
-      &one, meas, nAlt, pref, &inc1,
+    F77_CALL(dgemv)(&trans, &nAlt, &nCrit,
+      &one, meas, &nAlt, pref, &inc1,
       &zero, v, &inc1); // t := 1Aw + 0t
 
     // advance measurement and weight pointers
-    meas += *nAlt * *nCrit;
-    if (!*singleWeight) pref += *nCrit;
+    meas += nAlt * nCrit;
+    if (!singleWeight) pref += nCrit;
     // advance alternative value pointer
-    v += *nAlt;
+    v += nAlt;
   }
+
+  UNPROTECT(3);
+  return _v;
 }
 
-#include <stdio.h>
-
-void smaa(
-    double const *meas, double const *pref,
-    int const *nIter, int const *nAlt, int const *nCrit,
-    int const *singleWeight,
-    double *hData, double *wcData) {
+/*
+ * Calculate SMAA metrics from partial values
+ * @param _meas: m * n * N array of partial values
+ * @param _pref: n * N matrix of weights, or a single n-vector
+ * @param _singleWeight: TRUE iff _pref is a single n-vector
+ * @return A list of (1) m * m matrix of rank acceptabilities; (2) m * n matrix of central weights
+ */
+SEXP smaa(SEXP _meas, SEXP _pref, SEXP _singleWeight) {
+  SEXP dim = getAttrib(_meas, R_DimSymbol);
+  int const nAlt  = INTEGER(dim)[0];
+  int const nCrit = INTEGER(dim)[1];
+  int const nIter = INTEGER(dim)[2];
+  int const singleWeight = asLogical(_singleWeight);
   const int inc1 = 1;
   const double one = 1.0, zero = 0.0; // for BLAS
   const char trans = 'N';
 
-  Matrix h = { hData, *nAlt, *nAlt };
-  Matrix wc = { wcData, *nAlt, *nCrit };
+  _meas = PROTECT(coerceVector(_meas, REALSXP));
+  _pref = PROTECT(coerceVector(_pref, REALSXP));
+  double const *meas = REAL(_meas);
+  double const *pref = REAL(_pref);
 
-  double t[*nAlt];
-  int r[*nAlt]; // alternative ranks
-  for (int k = 0; k < *nIter; ++k) {
+  SEXP _h = PROTECT(allocMatrix(REALSXP, nAlt, nAlt));
+  SEXP _wc = PROTECT(allocMatrix(REALSXP, nAlt, nCrit));
+  Matrix h = { REAL(_h), nAlt, nAlt };
+  memset(h.data, 0, nAlt * nAlt * sizeof(double));
+  Matrix wc = { REAL(_wc), nAlt, nCrit };
+  memset(wc.data, 0, nAlt * nCrit * sizeof(double));
+
+  double t[nAlt];
+  int r[nAlt]; // alternative ranks
+  for (int k = 0; k < nIter; ++k) {
     // calculate value of each alternative
-    F77_CALL(dgemv)(&trans, nAlt, nCrit,
-      &one, meas, nAlt, pref, &inc1,
+    F77_CALL(dgemv)(&trans, &nAlt, &nCrit,
+      &one, meas, &nAlt, pref, &inc1,
       &zero, t, &inc1); // t := 1Aw + 0t
 
     // rank the alternatives
-    smaa_rank(t, r, *nAlt);
-    for (int i = 0; i < *nAlt; ++i) {
+    smaa_rank(t, r, nAlt);
+    for (int i = 0; i < nAlt; ++i) {
       *get(&h, i, r[i]) = *get(&h, i, r[i]) + 1; // update rank counts
-      if (!*singleWeight && r[i] == 0) { // update central weights
-        for (int j = 0; j < *nCrit; ++j) {
+      if (!singleWeight && r[i] == 0) { // update central weights
+        for (int j = 0; j < nCrit; ++j) {
           *get(&wc, i, j) = *get(&wc, i, j) + pref[j];
         }
       }
     }
 
     // advance measurement and weight pointers
-    meas += *nAlt * *nCrit;
-    if (!*singleWeight) pref += *nCrit;
+    meas += nAlt * nCrit;
+    if (!singleWeight) pref += nCrit;
   }
 
   // normalize central weights
-  if (!*singleWeight) {
-    for (int i = 0; i < *nAlt; ++i) {
+  if (!singleWeight) {
+    for (int i = 0; i < nAlt; ++i) {
       double const r1 = *get(&h, i, 0);
       if (r1 > 0.0) {
-        for (int j = 0; j < *nCrit; ++j) {
+        for (int j = 0; j < nCrit; ++j) {
           *get(&wc, i, j) = *get(&wc, i, j) / r1;
         }
       }
     }
   }
+
+  SEXP ans = PROTECT(allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(ans, 0, _h);
+  SET_VECTOR_ELT(ans, 1, _wc);
+
+  UNPROTECT(5);
+  return ans;
 }

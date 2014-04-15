@@ -4,10 +4,7 @@ smaa.values <- function(meas, pref) {
   n <- dim(meas)[3]
   stopifnot(identical(dim(pref), c(N, n)) || identical(length(pref), n))
 
-  values <- t(.C("smaa_values",
-    as.double(aperm(meas, c(2,3,1))), as.double(t(pref)),
-    as.integer(N), as.integer(m), as.integer(n), is.vector(pref),
-    v=matrix(0.0, nrow=m, ncol=N))$v)
+  values <- t(.Call("smaa_values", aperm(meas, c(2,3,1)), t(pref), is.vector(pref)))
   dimnames(values) <- dimnames(meas)[1:2]
   class(values) <- "smaa.values"
   values
@@ -21,10 +18,7 @@ plot.smaa.values <- function(x, ...) {
 smaa.ranks <- function(values) {
   N <- dim(values)[1]
   m <- dim(values)[2]
-  ranks <- t(.C("smaa_ranks", as.double(t(values)),
-    as.integer(N), as.integer(m),
-    r=matrix(0L, nrow=m, ncol=N),
-    NAOK=FALSE, DUP=FALSE)$r) + 1
+  ranks <- t(.Call("smaa_ranks", t(values))) + 1
   dimnames(ranks) <- dimnames(values)
   class(ranks) <- "smaa.ranks"
   ranks
@@ -99,10 +93,7 @@ smaa.entropy.ranking <- function(ranks, p0=1) {
   N <- dim(ranks)[1]
   m <- dim(ranks)[2]
 
-	counts <- .C("smaa_countRankings", as.integer(t(ranks)),
-	  as.integer(N), as.integer(m),
-	  counts=as.integer(rep(0, N)),
-	  NAOK=FALSE, DUP=FALSE)$counts
+	counts <- .Call("smaa_countRankings", t(ranks))
 
   p <- counts[counts > 0] / N * p0
   -sum(p * log2(p))
@@ -156,11 +147,8 @@ smaa <- function(meas, pref) {
   n <- dim(meas)[3]
   stopifnot(identical(dim(pref), c(N, n)) || identical(length(pref), n))
 
-  result <- .C("smaa", as.double(aperm(meas, c(2,3,1))), as.double(t(pref)),
-    as.integer(N), as.integer(m), as.integer(n), is.vector(pref),
-    h=matrix(0, nrow=m, ncol=m),
-    cw=matrix(0, nrow=m, ncol=n),
-    NAOK=FALSE, DUP=FALSE)
+  result <- .Call("smaa", aperm(meas, c(2,3,1)), t(pref), is.vector(pref))
+  names(result) <- c("h", "cw")
 
   # Introduce NAs where central weights are undefined
   cw <- t(apply(result$cw, 1, function(w) { if (sum(w) < 0.5) rep(NA, length(w)) else w }))
@@ -196,10 +184,7 @@ smaa.pvf <- function(x, cutoffs, values, outOfBounds="error") {
   n <- length(cutoffs)
   N <- length(x)
 
-  v <- .C("smaa_pvf",
-    as.double(x), as.integer(N),
-    as.double(cutoffs), as.double(values), as.integer(n),
-    v=vector(mode="double", length=N))$v
+  v <- .Call("smaa_pvf", x, cutoffs, values)
 
   clip <- function(v) {
     w <- v

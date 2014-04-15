@@ -5,10 +5,7 @@ data <- dget('rankEntropy.txt')
 N <- dim(data$ranks)[1]
 m <- dim(data$ranks)[2]
 
-counts <- .C("smaa_countRankings", as.integer(t(data$ranks)),
-  as.integer(N), as.integer(m),
-  counts=as.integer(rep(0, N)),
-  NAOK=FALSE, DUP=FALSE)$counts
+counts <- .Call("smaa_countRankings", t(data$ranks))
 
 stopifnot(all.equal(counts[counts > 0], data$counts))
 stopifnot(all.equal(smaa.entropy.ranking(data$ranks), data$entropy))
