@@ -1,9 +1,10 @@
 smaa 0.2-3
 ==========
 
-Released 2014-XX-YY
+Released 2015-07-09
 
  * Use .Call interface for all C code
+ * Explicitly import functions from R core packages
 
 smaa 0.2-2
 ==========
