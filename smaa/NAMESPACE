@@ -1,5 +1,7 @@
 useDynLib(smaa)
 
+importFrom(graphics, axis, barplot, boxplot, legend, lines, par, plot)
+
 S3method(print, smaa.result)
 S3method(plot, smaa.result)
 
