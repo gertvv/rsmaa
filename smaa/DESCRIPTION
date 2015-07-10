@@ -7,6 +7,6 @@ Maintainer: Gert van Valkenhoef <g.h.m.van.valkenhoef@rug.nl>
 Depends:
 Suggests: hitandrun
 Imports: graphics
-Description: Implementation of the Stochastic Multi-Criteria Acceptability Analysis (SMAA) family of Multiple Criteria Decision Analysis (MCDA) methods
+Description: Implementation of the Stochastic Multi-Criteria Acceptability Analysis (SMAA) family of Multiple Criteria Decision Analysis (MCDA) methods.
 URL: http://github.com/gertvv/rsmaa
 License: GPL-3
