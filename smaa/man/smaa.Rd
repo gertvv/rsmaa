@@ -2,7 +2,7 @@
 \alias{smaa}
 \title{One-stage SMAA analysis}
 \description{
-Calculate SMAA decision indices based on a set of samples from the criteria values discribution and a set of samples from the feasible weight space.
+Calculate SMAA decision indices based on a set of samples from the criteria values distribution and a set of samples from the feasible weight space.
 }
 \usage{
     smaa(meas, pref)
