@@ -4,7 +4,7 @@
 SMAA alternative values
 }
 \description{
-Calculate the alternative values based on a set of samples from the criteria values discribution and a set of samples from the feasible weight space.
+Calculate the alternative values based on a set of samples from the criteria values distribution and a set of samples from the feasible weight space.
 }
 \usage{
 smaa.values(meas, pref)
