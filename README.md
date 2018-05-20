@@ -1,6 +1,8 @@
 SMAA for R
 ==========
 
+[![Build Status](https://travis-ci.com/gertvv/rsmaa.svg?branch=master)](https://travis-ci.com/gertvv/rsmaa)
+
 An R package for the Stochastic Multi-criteria Acceptability Analysis (SMAA)
 family of Multiple Criteria Decision Analysis (MCDA) methods.
 
