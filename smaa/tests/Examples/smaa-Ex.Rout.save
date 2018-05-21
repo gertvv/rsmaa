@@ -1,7 +1,7 @@
 
-R version 3.0.1 (2013-05-16) -- "Good Sport"
-Copyright (C) 2013 The R Foundation for Statistical Computing
-Platform: i686-pc-linux-gnu (32-bit)
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -257,6 +257,33 @@ Enoxaparin 0.4073100 0.3641477 0.2285423
 > 
 > 
 > cleanEx()
+> nameEx("smaa.pwi")
+> ### * smaa.pwi
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: smaa.pwi
+> ### Title: SMAA pair-wise winning indices
+> ### Aliases: smaa.pwi
+> 
+> ### ** Examples
+> 
+> N <- 1E4; m <- 2; n <- 3
+> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> 
+> # Calculate pair-wise winning indices
+> values <- smaa.values(meas, pref)
+> ranks <- smaa.ranks(values)
+> pwi <- smaa.pwi(ranks)
+> print(pwi)
+           Heparin Enoxaparin
+Heparin     0.0000     0.3504
+Enoxaparin  0.6496     0.0000
+> 
+> 
+> 
+> cleanEx()
 > nameEx("smaa.ra")
 > ### * smaa.ra
 > 
@@ -358,7 +385,7 @@ Enoxaparin 0.6496 0.3504
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  3.524 0.24 4.016 0 0 
+Time elapsed:  2.356 0.212 2.575 0 0 
 > grDevices::dev.off()
 null device 
           1 
