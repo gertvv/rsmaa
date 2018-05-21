@@ -1,4 +1,4 @@
-useDynLib(smaa)
+useDynLib(smaa, .registration = TRUE)
 
 importFrom(graphics, axis, barplot, boxplot, legend, lines, par, plot)
 

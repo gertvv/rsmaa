@@ -1,23 +1,8 @@
-#include <R.h>
-#include <Rinternals.h>
+#include "smaa.h"
 #include <R_ext/BLAS.h>
 
 #include <math.h>
 #include <stdlib.h>
-
-typedef struct Matrix {
-  double * const data;
-  int const nRow;
-  int const nCol;
-} Matrix;
-
-/**
- * @param i Row index.
- * @param j Column index.
- */
-static inline double *get(Matrix *m, int i, int j) {
-  return m->data + j * (m->nRow) + i;
-}
 
 /**
  * Rank the n-array of doubles t, writing results to r.
@@ -35,11 +20,6 @@ static inline void smaa_rank(double const *t, int *r, int n) {
   }
 }
 
-/*
- * Calculate ranks from values
- * @param _v: m * N matrix of values
- * @return m * N array of ranks
- */
 SEXP smaa_ranks(SEXP _v) {
   int const nAlt = nrows(_v);
   int const nIter = ncols(_v);
@@ -61,13 +41,6 @@ SEXP smaa_ranks(SEXP _v) {
   return _r;
 }
 
-/*
- * Calculate aggregate values from partial values
- * @param _meas: m * n * N array of partial values
- * @param _pref: n * N matrix of weights, or a single n-vector
- * @param _singleWeight: TRUE iff _pref is a single n-vector
- * @return m * N matrix of values
- */
 SEXP smaa_values(SEXP _meas, SEXP _pref, SEXP _singleWeight) {
   SEXP dim = getAttrib(_meas, R_DimSymbol);
   int const nAlt  = INTEGER(dim)[0];
@@ -103,13 +76,6 @@ SEXP smaa_values(SEXP _meas, SEXP _pref, SEXP _singleWeight) {
   return _v;
 }
 
-/*
- * Calculate SMAA metrics from partial values
- * @param _meas: m * n * N array of partial values
- * @param _pref: n * N matrix of weights, or a single n-vector
- * @param _singleWeight: TRUE iff _pref is a single n-vector
- * @return A list of (1) m * m matrix of rank acceptabilities; (2) m * n matrix of central weights
- */
 SEXP smaa(SEXP _meas, SEXP _pref, SEXP _singleWeight) {
   SEXP dim = getAttrib(_meas, R_DimSymbol);
   int const nAlt  = INTEGER(dim)[0];

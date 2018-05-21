@@ -1,0 +1,3 @@
+LIBRARY smaa.dll
+EXPORTS
+  R_init_smaa

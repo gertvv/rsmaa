@@ -1,13 +1,5 @@
-#include <R.h>
-#include <Rinternals.h>
+#include "smaa.h"
 
-/*
- * Calculate piece-wise linear partial value function
- * @param x: vector of measurements (length N)
- * @param y: vector of cut-offs (length n) defining the PVF
- * @param v: vector of values corresponding to the cut-offs (length n)
- * @return vector of values (length N)
- */
 SEXP smaa_pvf(SEXP _x, SEXP _y, SEXP _v) {
 	int const N = length(_x);
 	int const n = length(_y);

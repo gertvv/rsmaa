@@ -4,7 +4,7 @@ smaa.values <- function(meas, pref) {
   n <- dim(meas)[3]
   stopifnot(identical(dim(pref), c(N, n)) || identical(length(pref), n))
 
-  values <- t(.Call("smaa_values", aperm(meas, c(2,3,1)), t(pref), is.vector(pref)))
+  values <- t(.Call(smaa_values, aperm(meas, c(2,3,1)), t(pref), is.vector(pref)))
   dimnames(values) <- dimnames(meas)[1:2]
   class(values) <- "smaa.values"
   values
@@ -18,7 +18,7 @@ plot.smaa.values <- function(x, ...) {
 smaa.ranks <- function(values) {
   N <- dim(values)[1]
   m <- dim(values)[2]
-  ranks <- t(.Call("smaa_ranks", t(values))) + 1
+  ranks <- t(.Call(smaa_ranks, t(values))) + 1
   dimnames(ranks) <- dimnames(values)
   class(ranks) <- "smaa.ranks"
   ranks
@@ -91,9 +91,8 @@ print.smaa.cw <- function(x, ...) {
 
 smaa.entropy.ranking <- function(ranks, p0=1) {
   N <- dim(ranks)[1]
-  m <- dim(ranks)[2]
 
-	counts <- .Call("smaa_countRankings", t(ranks))
+	counts <- .Call(smaa_countRankings, t(ranks))
 
   p <- counts[counts > 0] / N * p0
   -sum(p * log2(p))
@@ -147,7 +146,7 @@ smaa <- function(meas, pref) {
   n <- dim(meas)[3]
   stopifnot(identical(dim(pref), c(N, n)) || identical(length(pref), n))
 
-  result <- .Call("smaa", aperm(meas, c(2,3,1)), t(pref), is.vector(pref))
+  result <- .Call(smaa_smaa, aperm(meas, c(2,3,1)), t(pref), is.vector(pref))
   names(result) <- c("h", "cw")
 
   # Introduce NAs where central weights are undefined
@@ -184,7 +183,7 @@ smaa.pvf <- function(x, cutoffs, values, outOfBounds="error") {
   n <- length(cutoffs)
   N <- length(x)
 
-  v <- .Call("smaa_pvf", x, cutoffs, values)
+  v <- .Call(smaa_pvf, x, cutoffs, values)
 
   clip <- function(v) {
     w <- v

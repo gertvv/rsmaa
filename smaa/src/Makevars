@@ -1,2 +1,3 @@
+PKG_CFLAGS=$(C_VISIBILITY)
 PKG_LIBS=$(BLAS_LIBS) $(FLIBS)
-OBJECTS=smaa.o pvf.o entropyRanking.o
+OBJECTS=init.o smaa.o pvf.o entropyRanking.o
