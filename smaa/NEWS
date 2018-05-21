@@ -1,3 +1,15 @@
+smaa 0.3-0
+==========
+
+Released 2018-05-21
+
+ * Add pair-wise winning indices (smaa.pwi)
+
+ * Register native code
+
+ * Fix typos in documentation
+
+
 smaa 0.2-5
 ==========
 
