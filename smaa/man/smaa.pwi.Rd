@@ -7,7 +7,7 @@ SMAA pair-wise winning indices
 Calculate SMAA pair-wise winning indices from sampled rankings.
 }
 \usage{
-smaa.ra(ranks)
+smaa.pwi(ranks)
 }
 \arguments{
   \item{ranks}{An \eqn{N \times m}{N * m} array of sampled rankings, where \eqn{N}{N} is the number
