@@ -26,12 +26,12 @@ constraints on the weight vector.
 T. Tervonen and J.R. Figueira (2008),
 \emph{A survey on stochastic multicriteria acceptability analysis methods},
 Journal of Multi-Criteria Decision Analysis 15(1-2):1-14.
-[\href{http://dx.doi.org/10.1002/mcda.407}{doi:10.1002/mcda.407}]
+[\doi{10.1002/mcda.407}]
 
 T. Tervonen, G. van Valkenhoef, N. Basturk, and D. Postmus (2012),
 \emph{Hit-And-Run enables efficient weight generation for simulation-based multiple criteria decision analysis},
 European Journal of Operational Research 224(3):552-559.
-[\href{http://dx.doi.org/10.1016/j.ejor.2012.08.026}{doi:10.1016/j.ejor.2012.08.026}]
+[\doi{10.1016/j.ejor.2012.08.026}]
 }
 \examples{
 N <- 1E4; m <- 2; n <- 3

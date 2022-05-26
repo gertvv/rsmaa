@@ -111,8 +111,8 @@ smaa.entropy.ranking <- function(ranks, p0=1) {
 }
 
 smaa.entropy.choice <- function(ra, p0=1) {
-  if (class(ra) == 'smaa.ranks') { ra <- smaa.ra(ra) }
-  stopifnot(class(ra) == 'smaa.ra')
+  if (inherits(ra, 'smaa.ranks')) { ra <- smaa.ra(ra) }
+  stopifnot(inherits(ra, 'smaa.ra'))
 
   p <- ra[, 1] * p0 # first-rank acceptabilities
   p <- p[p > 0]

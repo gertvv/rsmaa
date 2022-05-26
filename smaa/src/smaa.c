@@ -1,5 +1,8 @@
 #include "smaa.h"
 #include <R_ext/BLAS.h>
+#ifndef FCONE
+#define FCONE
+#endif
 
 #include <math.h>
 #include <stdlib.h>
@@ -63,7 +66,7 @@ SEXP smaa_values(SEXP _meas, SEXP _pref, SEXP _singleWeight) {
     // calculate value of each alternative
     F77_CALL(dgemv)(&trans, &nAlt, &nCrit,
       &one, meas, &nAlt, pref, &inc1,
-      &zero, v, &inc1); // t := 1Aw + 0t
+      &zero, v, &inc1 FCONE); // t := 1Aw + 0t
 
     // advance measurement and weight pointers
     meas += nAlt * nCrit;
@@ -104,7 +107,7 @@ SEXP smaa(SEXP _meas, SEXP _pref, SEXP _singleWeight) {
     // calculate value of each alternative
     F77_CALL(dgemv)(&trans, &nAlt, &nCrit,
       &one, meas, &nAlt, pref, &inc1,
-      &zero, t, &inc1); // t := 1Aw + 0t
+      &zero, t, &inc1 FCONE); // t := 1Aw + 0t
 
     // rank the alternatives
     smaa_rank(t, r, nAlt);
