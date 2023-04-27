@@ -204,8 +204,9 @@ smaa.pvf <- function(x, cutoffs, values, outOfBounds="error") {
     w
   }
 
+  tol <- .Machine$double.eps^0.5
   switch(outOfBounds,
-         error=(function(v) { stopifnot(all(v >= 0) && all(v <= 1)); v })(v),
+         error=(function(v) { stopifnot(all(v >= 0 - tol) && all(v <= 1 + tol)); v })(v),
          clip=clip(v),
          interpolate=v)
 }
