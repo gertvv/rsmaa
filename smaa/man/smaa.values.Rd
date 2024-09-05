@@ -32,11 +32,11 @@ Gert van Valkenhoef
 N <- 1E4; m <- 2; n <- 3
 meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
 
-# Sample / read weights
-\donttest{
-library(hitandrun)
-pref <- simplex.sample(n, N)$samples}
+# Read weights from file
 pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+# Alternatively, sample weights using hitandrun:
+# library(hitandrun)
+# pref <- simplex.sample(n, N)$samples
 
 # Calculate alternative values
 values <- smaa.values(meas, pref)
