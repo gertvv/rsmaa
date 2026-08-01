@@ -32,10 +32,10 @@ Gert van Valkenhoef
 }
 \examples{
 N <- 1E4; m <- 2; n <- 3
-meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
 
 # Read weights from file
-pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 # Alternatively, sample weights using hitandrun:
 # library(hitandrun)
 # pref <- simplex.sample(n, N)$samples

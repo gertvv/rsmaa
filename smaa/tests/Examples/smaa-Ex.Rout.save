@@ -1,6 +1,6 @@
 
-R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -23,6 +23,7 @@ Type 'q()' to quit R.
 > library('smaa')
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 > cleanEx()
 > nameEx("smaa-package")
 > ### * smaa-package
@@ -36,8 +37,8 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > 
 > # Calculate SMAA metrics (one-stage)
 > result <- smaa(meas, pref)
@@ -100,10 +101,10 @@ Enoxaparin 0.8956 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
 > 
 > # Read weights from file
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > # Alternatively, sample weights using hitandrun:
 > # library(hitandrun)
 > # pref <- simplex.sample(n, N)$samples
@@ -149,8 +150,8 @@ Enoxaparin       NA       NA    NA
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > 
 > # Calculate central weights
 > values <- smaa.values(meas, pref)
@@ -185,8 +186,8 @@ Enoxaparin 0.8956 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > 
 > # Calculate central weights
 > values <- smaa.values(meas, pref)
@@ -214,8 +215,8 @@ Enoxaparin 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > 
 > # Calculate ranks
 > values <- smaa.values(meas, pref)
@@ -268,8 +269,8 @@ Enoxaparin 0.4073100 0.3641477 0.2285423
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > 
 > # Calculate pair-wise winning indices
 > values <- smaa.values(meas, pref)
@@ -295,8 +296,8 @@ Enoxaparin  0.6496     0.0000
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > 
 > # Calculate rank acceptabilities
 > values <- smaa.values(meas, pref)
@@ -324,8 +325,8 @@ Enoxaparin 0.6496 0.3504
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > 
 > # Calculate alternative ranks
 > values <- smaa.values(meas, pref)
@@ -336,7 +337,7 @@ Rank acceptabilities (N = 10000 iterations):
 Heparin    0.3504 0.6496
 Enoxaparin 0.6496 0.3504
 > 
-> ranks.expected <- dget(system.file("extdata/thrombo-ranks-nopref.txt.gz", package="smaa"))
+> ranks.expected <- readRDS(system.file("extdata/thrombo-ranks-nopref.rds", package="smaa"))
 > stopifnot(all.equal(ranks, ranks.expected))
 > 
 > 
@@ -354,10 +355,10 @@ Enoxaparin 0.6496 0.3504
 > ### ** Examples
 > 
 > N <- 1E4; m <- 2; n <- 3
-> meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
+> meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
 > 
 > # Read weights from file
-> pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+> pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 > # Alternatively, sample weights using hitandrun:
 > # library(hitandrun)
 > # pref <- simplex.sample(n, N)$samples
@@ -374,16 +375,17 @@ Enoxaparin 0.6496 0.3504
  Max.   : 0.9734   Max.   :0.9371  
 > plot(values)
 > 
-> values.expected <- dget(system.file("extdata/thrombo-values-nopref.txt.gz", package="smaa"))
+> values.expected <- readRDS(system.file("extdata/thrombo-values-nopref.rds", package="smaa"))
 > stopifnot(all.equal(values, values.expected))
 > 
 > 
 > 
 > ### * <FOOTER>
 > ###
+> cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.356 0.212 2.575 0 0 
+Time elapsed:  0.112 0.009 0.124 0 0 
 > grDevices::dev.off()
 null device 
           1 

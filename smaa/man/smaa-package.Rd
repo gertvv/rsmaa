@@ -35,8 +35,8 @@ European Journal of Operational Research 224(3):552-559.
 }
 \examples{
 N <- 1E4; m <- 2; n <- 3
-meas <- dget(system.file("extdata/thrombo-meas.txt.gz", package="smaa"))
-pref <- dget(system.file("extdata/thrombo-weights-nopref.txt.gz", package="smaa"))
+meas <- readRDS(system.file("extdata/thrombo-meas.rds", package="smaa"))
+pref <- readRDS(system.file("extdata/thrombo-weights-nopref.rds", package="smaa"))
 
 # Calculate SMAA metrics (one-stage)
 result <- smaa(meas, pref)
